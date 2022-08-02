@@ -3,6 +3,7 @@ package util
 import (
 	"os"
 	"strconv"
+	"unicode"
 )
 
 func GetenvDefault(key string, default_value string) string {
@@ -25,4 +26,21 @@ func GetenvIntDefault(key string, default_value int) (int, error) {
 		}
 		return v, nil
 	}
+}
+
+func ParseName(originalName string) string {
+	name := ""
+	first := true
+	for _, char := range originalName {
+		if unicode.IsLetter(char) {
+			if unicode.IsUpper(char) && !first {
+				name += " "
+			}
+			name += string(char)
+		}
+		if first {
+			first = false
+		}
+	}
+	return name
 }

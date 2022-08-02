@@ -24,6 +24,15 @@ func rootHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Hello Stranger")
 }
 
+func helloHandler(w http.ResponseWriter, r *http.Request) {
+	name := r.URL.Query().Get("name")
+	if name != "" {
+		fmt.Fprintf(w, "Hello %s", util.ParseName(name))
+	} else {
+		fmt.Fprintf(w, "Hello Stranger")
+	}
+}
+
 func logRequest(handler http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		log.Printf("%s %s %s\n", r.RemoteAddr, r.Method, r.URL)
@@ -46,6 +55,7 @@ func main() {
 	flag.Parse()
 	log.Infof("Starting application on the %s environment, port %d", listenAddress, *port)
 
+	http.HandleFunc("/helloworld", helloHandler)
 	http.HandleFunc("/", rootHandler)
 
 	err = http.ListenAndServe(fmt.Sprintf("%s:%d", listenAddress, *port), logRequest(http.DefaultServeMux))
