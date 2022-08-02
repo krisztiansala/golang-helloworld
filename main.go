@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"flag"
 	"fmt"
 	"os"
@@ -10,6 +11,8 @@ import (
 	"github.com/krisztiansala/golang-helloworld/util"
 	log "github.com/sirupsen/logrus"
 )
+
+var GitProject, GitHash string
 
 func init() {
 	log.SetFormatter(&log.TextFormatter{
@@ -31,6 +34,18 @@ func helloHandler(w http.ResponseWriter, r *http.Request) {
 	} else {
 		fmt.Fprintf(w, "Hello Stranger")
 	}
+}
+
+func versionHandler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	resp := make(map[string]string)
+	resp["hash"] = GitHash
+	resp["project"] = GitProject
+	jsonResp, err := json.Marshal(resp)
+	if err != nil {
+		log.Errorf("Error happened in JSON marshal. Err: %s", err)
+	}
+	w.Write(jsonResp)
 }
 
 func logRequest(handler http.Handler) http.Handler {
@@ -56,6 +71,7 @@ func main() {
 	log.Infof("Starting application on the %s environment, port %d", listenAddress, *port)
 
 	http.HandleFunc("/helloworld", helloHandler)
+	http.HandleFunc("/versionz", versionHandler)
 	http.HandleFunc("/", rootHandler)
 
 	err = http.ListenAndServe(fmt.Sprintf("%s:%d", listenAddress, *port), logRequest(http.DefaultServeMux))
