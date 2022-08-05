@@ -15,6 +15,8 @@ deploy:
 	kubectl apply -f k8s
 helm_deploy:
 	helm upgrade --install golang-helloworld --values helm/values.yaml helm
+helm_uninstall:
+	helm uninstall golang-helloworld
 delete:
 	kubectl delete -f k8s
 portforward:

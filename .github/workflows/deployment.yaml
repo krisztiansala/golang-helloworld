@@ -4,7 +4,12 @@ on:
   push:
     branches: 
       - main
-
+    paths-ignore:
+      - 'helm/**'
+      - 'k8s/**'
+      - 'README*'
+      - 'Makefile'
+      - '.github/**'
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
