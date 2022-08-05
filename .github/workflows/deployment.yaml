@@ -1,0 +1,58 @@
+name: Build and Deploy
+on:
+  workflow_dispatch:
+  push:
+    branches: 
+      - main
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  test:
+    name: Build
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.ref }}
+
+      - name: Setup Go
+        uses: actions/setup-go@v3
+        with:
+          go-version: '>=1.18.0'
+
+      - name: Run unit tests
+        run: |
+          make test
+
+  build:
+    needs: ['test']
+    name: Build & Push Docker Image
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.ref }}
+      
+      - name: Log in to the Container registry
+        uses: docker/login-action@v2
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata (tags, labels) for Docker
+        id: metadata
+        uses: docker/metadata-action@v4
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.metadata.outputs.tags }}
+          labels: ${{ steps.metadata.outputs.labels }}
