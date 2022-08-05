@@ -13,5 +13,9 @@ dev:
 	nodemon --exec go run . --port=4000 --signal SIGTERM
 deploy:
 	kubectl apply -f k8s
+helm_deploy:
+	helm upgrade --install golang-helloworld --values helm/values.yaml helm
+delete:
+	kubectl delete -f k8s
 portforward:
 	kubectl port-forward service/golang-helloworld-service 8080:8080

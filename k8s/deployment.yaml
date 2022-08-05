@@ -19,6 +19,7 @@ spec:
       containers:
       - name: "golang-helloworld"
         image: "ghcr.io/krisztiansala/golang-helloworld:main"
+        imagePullPolicy: Always
         livenessProbe:
           httpGet:
             path: /

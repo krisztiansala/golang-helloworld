@@ -1,0 +1,22 @@
+appName: golang-helloworld
+
+image:
+  pullPolicy: Always
+  tag: "ghcr.io/krisztiansala/golang-helloworld:main"
+
+service: 
+  type: ClusterIP
+  port: 8080
+
+hpa: 
+  minReplicas: 2
+  maxReplicas: 5
+  cpuUtilization: 70
+
+resources:
+  requests:
+    memory: "512Mi"
+    cpu: "250m"
+  limits:
+    memory: "512Mi"
+    cpu: "250m"
