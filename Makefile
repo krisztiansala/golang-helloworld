@@ -10,4 +10,4 @@ fmt:
 build:
 	go build -ldflags="-X main.GitHash=`git rev-parse HEAD` -X main.GitProject=`git remote get-url origin | xargs basename -s .git`" -o bin/ .
 dev:
-	nodemon --exec go run main.go --signal SIGTERM
+	nodemon --exec go run . --port=4000 --signal SIGTERM

@@ -28,6 +28,16 @@ func GetenvIntDefault(key string, default_value int) (int, error) {
 	}
 }
 
+func GetPort(flagPort int, envPort int) int {
+	if envPort != 0 {
+		return envPort
+	}
+	if flagPort != 0 {
+		return flagPort
+	}
+	return 8080
+}
+
 func ParseName(originalName string) string {
 	name := ""
 	first := true
@@ -37,9 +47,9 @@ func ParseName(originalName string) string {
 				name += " "
 			}
 			name += string(char)
-		}
-		if first {
-			first = false
+			if first {
+				first = false
+			}
 		}
 	}
 	return name
