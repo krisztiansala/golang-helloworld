@@ -15,6 +15,7 @@ spec:
       labels:
         app: "golang-helloworld"
     spec:
+      terminationGracePeriodSeconds: 30
       containers:
       - name: "golang-helloworld"
         image: "ghcr.io/krisztiansala/golang-helloworld:main"

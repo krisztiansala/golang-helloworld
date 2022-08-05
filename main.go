@@ -2,9 +2,13 @@ package main
 
 import (
 	"bytes"
+	"context"
 	"flag"
 	"fmt"
 	"os"
+	"os/signal"
+	"syscall"
+	"time"
 
 	"net/http"
 
@@ -78,16 +82,34 @@ func main() {
 	if err != nil {
 		log.Fatal("Error occurred parsing port number from environmental variable")
 	}
-	// port = flag.Int("port", portEnv, "The port the server should run on. Default value is 8080.")
-	// flag.Parse()
 	log.Infof("Starting application on the %s environment, address %s:%d", environment, listenAddress, port)
 
 	http.HandleFunc("/helloworld", helloHandler)
 	http.HandleFunc("/versionz", versionHandler)
 	http.HandleFunc("/", RootHandler)
 
-	err = http.ListenAndServe(fmt.Sprintf("%s:%d", listenAddress, port), logRequest(http.DefaultServeMux))
-	if err != nil {
-		log.Fatal(err)
+	ctx, stop := signal.NotifyContext(context.Background(), syscall.SIGINT, syscall.SIGTERM)
+
+	srv := &http.Server{
+		Addr:    fmt.Sprintf("%s:%d", listenAddress, port),
+		Handler: logRequest(http.DefaultServeMux),
 	}
+
+	go func() {
+		if err = srv.ListenAndServe(); err != nil && err != http.ErrServerClosed {
+			log.Fatal("Error initializing server: ", err)
+		}
+	}()
+
+	<-ctx.Done()
+	stop()
+
+	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
+	defer cancel()
+	log.Info("Server shutting down gracefully...")
+
+	if err = srv.Shutdown(ctx); err != nil {
+		log.Fatal("Server forcefully shut down: ", err)
+	}
+
 }
