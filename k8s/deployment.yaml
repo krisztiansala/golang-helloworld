@@ -1,0 +1,41 @@
+---
+apiVersion: "apps/v1"
+kind: "Deployment"
+metadata:
+  name: "golang-helloworld"
+  labels:
+    app: "golang-helloworld"
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: "golang-helloworld"
+  template:
+    metadata:
+      labels:
+        app: "golang-helloworld"
+    spec:
+      containers:
+      - name: "golang-helloworld"
+        image: "ghcr.io/krisztiansala/golang-helloworld:main"
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 8080
+          initialDelaySeconds: 5
+          periodSeconds: 20
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 8080
+          initialDelaySeconds: 5
+          periodSeconds: 20
+        ports:
+        - containerPort: 8080
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "250m"
