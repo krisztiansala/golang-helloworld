@@ -24,5 +24,6 @@ variable "gke_password" {
 }
 
 variable "GOOGLE_CREDENTIALS" {
-  type = string
+  default = ""
+  type    = string
 }
