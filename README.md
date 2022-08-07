@@ -53,4 +53,4 @@ There are two workflows in this repository. The deployment workflow will run on 
 
 The deployment is done through a service account (also created through Terraform), which has admin access over the cluster (feel free to fine tune this as well).
 
-The other workflow will check the formatting and validity of the Terraform code and run a plan on Terraform cloud (for this an API token needs to be set as a secret for the Action). Apllying the infrastructure changes do not happen in this pipeline, instead it has to be manually approved in Terraform Cloud.
+The other workflow will check the formatting and validity of the Terraform code and run a plan on Terraform cloud (for this an API token needs to be set as a secret for the Action). Applying the infrastructure changes do not happen in this pipeline, instead it has to be manually approved in Terraform Cloud.
