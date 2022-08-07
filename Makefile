@@ -21,3 +21,11 @@ delete:
 	kubectl delete -f k8s
 portforward:
 	kubectl port-forward service/golang-helloworld-service 8080:8080
+tf_local_apply:
+	terraform -chdir=terraform/local apply -auto-approve
+tf_gcp_apply:
+	terraform -chdir=terraform/gcp apply -auto-approve
+tf_local_destroy:
+	terraform -chdir=terraform/local destroy -auto-approve
+tf_gcp_destroy:
+	terraform -chdir=terraform/gcp destroy -auto-approve
