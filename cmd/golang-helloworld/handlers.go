@@ -6,7 +6,7 @@ import (
 
 	"net/http"
 
-	"github.com/krisztiansala/golang-helloworld/util"
+	util "github.com/krisztiansala/golang-helloworld/internal"
 	log "github.com/sirupsen/logrus"
 )
 
