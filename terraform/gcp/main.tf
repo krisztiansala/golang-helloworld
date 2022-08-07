@@ -1,8 +1,8 @@
 module "gke-autopilot" {
-  source                   = "./modules/compute/gke-autopilot"
-  region                   = var.region
-  vpc                      = google_compute_network.vpc.name
-  subnet_id                = google_compute_subnetwork.subnet.id
+  source    = "./modules/compute/gke-autopilot"
+  region    = var.region
+  vpc       = google_compute_network.vpc.name
+  subnet_id = google_compute_subnetwork.subnet.id
 }
 
 resource "google_service_account" "github-actions" {
