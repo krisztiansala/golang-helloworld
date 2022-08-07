@@ -6,8 +6,8 @@ on:
     branches:
       - main
       - terraform-plan
-    paths:
-      - "terraform/gcp/**"
+    # paths:
+    #   - "terraform/gcp/**"
 
 jobs:
   terraform:
