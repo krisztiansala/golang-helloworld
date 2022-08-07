@@ -10,6 +10,7 @@ on:
       - 'README*'
       - 'Makefile'
       - '.github/**'
+      - 'terraform/**'
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
