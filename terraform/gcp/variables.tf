@@ -23,7 +23,7 @@ variable "gke_password" {
   description = "gke password"
 }
 
-# variable "GOOGLE_CREDENTIALS" {
-#   default = ""
-#   type    = string
-# }
+variable "GOOGLE_CREDENTIALS" {
+  default = ""
+  type    = string
+}

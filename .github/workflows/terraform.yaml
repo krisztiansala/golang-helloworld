@@ -1,4 +1,4 @@
-name: "Terraform"
+name: "Terraform Check" 
 
 on:
   workflow_dispatch:
@@ -36,5 +36,3 @@ jobs:
         id: validate
         run: terraform validate -no-color
 
-      - name: Terraform Apply
-        run: terraform apply -auto-approve -input=false

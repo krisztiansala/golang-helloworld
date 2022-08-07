@@ -15,7 +15,7 @@ terraform {
   required_version = ">= 1.1.1"
 }
 provider "google" {
-  project = var.project_id
-  region  = var.region
-  # credentials = var.GOOGLE_CREDENTIALS
+  project     = var.project_id
+  region      = var.region
+  credentials = var.GOOGLE_CREDENTIALS
 }
