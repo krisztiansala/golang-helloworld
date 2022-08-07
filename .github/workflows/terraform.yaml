@@ -5,6 +5,7 @@ on:
   push:
     branches:
       - main
+      - terraform-plan
     paths:
       - "terraform/gcp/**"
 
@@ -35,4 +36,8 @@ jobs:
       - name: Terraform Validate
         id: validate
         run: terraform validate -no-color
+
+      - name: Terraform Plan
+        id: plan
+        run: terraform plan
 
